@@ -64,7 +64,6 @@ class PhotoListFragment : Fragment() {
                 if (results is Results.Success && results.data != null) {
                     photoAdapter.updateList(results.data)
                 } else {
-                    Log.e(TAG, "Error ${results.message.orEmpty()}")
                     // todo handle error messages
                 }
             }

@@ -20,9 +20,8 @@ class PhotoListAdapter : RecyclerView.Adapter<PhotoListAdapter.PhotoViewHolder>(
     private var photoList: MutableList<Photo> = mutableListOf()
 
     fun updateList(list: List<Photo>) {
-        val lastIndex = list.size - 1
         this.photoList.addAll(list)
-        notifyItemRangeInserted(lastIndex, list.size)
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoViewHolder {

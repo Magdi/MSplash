@@ -19,7 +19,7 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField("String","PRIVATE_KEY", "\"$UNSPLASH_KEY\"")
+        buildConfigField("String","PRIVATE_KEY", "\"$UNSPLASH_KEY_2\"")
     }
 
     buildTypes {
