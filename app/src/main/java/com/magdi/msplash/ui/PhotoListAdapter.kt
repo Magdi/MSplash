@@ -24,6 +24,12 @@ class PhotoListAdapter : RecyclerView.Adapter<PhotoListAdapter.PhotoViewHolder>(
         notifyDataSetChanged()
     }
 
+    fun setList(data: List<Photo>) {
+        this.photoList.clear()
+        this.photoList.addAll(data)
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.image_item, parent, false)
         return PhotoViewHolder(view)
@@ -32,7 +38,6 @@ class PhotoListAdapter : RecyclerView.Adapter<PhotoListAdapter.PhotoViewHolder>(
     override fun onBindViewHolder(holder: PhotoViewHolder, position: Int) {
         holder.bind2(photoList[position])
     }
-
     override fun getItemCount(): Int = photoList.size
 
     class PhotoViewHolder(parent: View) : RecyclerView.ViewHolder(parent) {

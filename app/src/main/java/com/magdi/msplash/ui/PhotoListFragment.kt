@@ -54,18 +54,21 @@ class PhotoListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.loadPhotos().collect { results ->
+                if (results is Results.Success && results.data != null) {
+                    photoAdapter.setList(results.data)
+                }
+            }
+        }
         loadMore()
     }
 
     private fun loadMore(currentPage: Int = 1) {
         viewLifecycleOwner.lifecycleScope.launch {
             Log.e(TAG, "Loading...")
-            viewModel.loadPhotos(currentPage).collect { results ->
-                if (results is Results.Success && results.data != null) {
-                    photoAdapter.updateList(results.data)
-                } else {
-                    // todo handle error messages
-                }
+            viewModel.refreshPhotos(currentPage).collect { results ->
+                //TODO show loading status
             }
         }
     }

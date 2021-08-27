@@ -1,6 +1,9 @@
 package com.magdi.msplash.di
 
+import android.content.Context
+import androidx.room.Room
 import com.magdi.msplash.data.PhotoMapper
+import com.magdi.msplash.db.AppDatabase
 import com.magdi.msplash.repo.PhotoRepo
 import com.magdi.msplash.network.SplashAPI
 import com.magdi.msplash.network.interceptor.HttpDebugInterceptor
@@ -9,6 +12,7 @@ import com.magdi.msplash.usecase.LoadPhotosUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -30,10 +34,19 @@ object AppModule {
     @Singleton
     @Provides
     fun providePhotoRepo(
+        database: AppDatabase,
         api: SplashAPI,
         mapper: PhotoMapper
     ): PhotoRepo {
-        return PhotoRepo(api, mapper)
+        return PhotoRepo(database.photosDao(), api, mapper)
+    }
+
+    @Singleton
+    @Provides
+    fun provideDB(
+        @ApplicationContext context: Context
+    ): AppDatabase {
+        return Room.databaseBuilder(context, AppDatabase::class.java, "photos-database").build()
     }
 
 
