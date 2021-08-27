@@ -13,7 +13,9 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import java.lang.Exception
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class PhotoRepo @Inject constructor(
     private val dao: PhotoDao,
     private val api: SplashAPI

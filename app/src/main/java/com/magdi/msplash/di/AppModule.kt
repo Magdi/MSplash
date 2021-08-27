@@ -3,6 +3,7 @@ package com.magdi.msplash.di
 import android.content.Context
 import androidx.room.Room
 import com.magdi.msplash.db.AppDatabase
+import com.magdi.msplash.db.PhotoDao
 import com.magdi.msplash.repo.PhotoRepo
 import com.magdi.msplash.network.SplashAPI
 import com.magdi.msplash.network.interceptor.HttpDebugInterceptor
@@ -21,16 +22,6 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
-
-    @Singleton
-    @Provides
-    fun providePhotoRepo(
-        database: AppDatabase,
-        api: SplashAPI,
-    ): PhotoRepo {
-        return PhotoRepo(database.photosDao(), api)
-    }
-
     @Singleton
     @Provides
     fun provideDB(
@@ -39,6 +30,14 @@ object AppModule {
         return Room.databaseBuilder(context, AppDatabase::class.java, "photos-database").build()
     }
 
+
+    @Singleton
+    @Provides
+    fun photoDao(
+        db: AppDatabase
+    ): PhotoDao {
+        return db.photosDao()
+    }
 
     @Singleton
     @Provides

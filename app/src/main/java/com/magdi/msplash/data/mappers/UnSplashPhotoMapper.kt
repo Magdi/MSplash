@@ -1,5 +1,6 @@
 package com.magdi.msplash.data.mappers
 
+import android.net.Uri
 import com.magdi.msplash.data.Photo
 import com.magdi.msplash.network.response.PhotosResponse
 import com.magdi.msplash.utils.Mapper
@@ -11,7 +12,7 @@ object UnSplashPhotoMapper : Mapper<PhotosResponse, Photo> {
     override fun map(response: PhotosResponse): Photo {
         return Photo(
             id = response.id!!,
-            url = response.urls!!.regular!!,
+            url = Uri.parse(response.urls!!.regular!!),
             color = response.color.orEmpty(),
             description = response.description.orEmpty(),
             height = calcNewHeight(response.width, response.height),
