@@ -1,7 +1,6 @@
 package com.magdi.msplash.repo
 
 import com.magdi.msplash.data.Photo
-import com.magdi.msplash.data.PhotoMapper
 import com.magdi.msplash.network.SplashAPI
 import com.magdi.msplash.network.response.PhotosResponse
 import com.magdi.msplash.network.response.Urls

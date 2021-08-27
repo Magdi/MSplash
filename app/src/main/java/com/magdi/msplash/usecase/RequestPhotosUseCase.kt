@@ -6,9 +6,11 @@ import com.magdi.msplash.repo.PhotoRepo
 import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject
 
-class LoadPhotosUseCase @Inject constructor(
+class RequestPhotosUseCase @Inject constructor(
     private val photoRepo: PhotoRepo,
     @IoDispatcher dispatcher: CoroutineDispatcher
-) : FlowUseCase<Unit, List<Photo>>(dispatcher) {
-    override fun execute(unit: Unit) = photoRepo.getPhotos()
+) : FlowUseCase<LoadPhotoParams, Boolean>(dispatcher) {
+    override fun execute(params: LoadPhotoParams) = photoRepo.requestPhotos(params)
 }
+
+data class LoadPhotoParams(val perPage: Int = 50, val page: Int = 1)
