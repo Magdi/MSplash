@@ -1,14 +1,18 @@
 package com.magdi.msplash.di
 
+import android.content.Context
 import com.magdi.msplash.data.PhotoMapper
+import com.magdi.msplash.dp.DownloadPhotoDB
 import com.magdi.msplash.repo.PhotoRepo
 import com.magdi.msplash.network.SplashAPI
 import com.magdi.msplash.network.interceptor.HttpDebugInterceptor
 import com.magdi.msplash.network.interceptor.SplashHeadersInterceptor
+import com.magdi.msplash.repo.DownloadPhotosRepo
 import com.magdi.msplash.usecase.LoadPhotosUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -25,6 +29,12 @@ object AppModule {
     @Provides
     fun providePhotosMapper(): PhotoMapper {
         return PhotoMapper()
+    }
+
+    @Singleton
+    @Provides
+    fun providePhotoDB(@ApplicationContext context: Context) : DownloadPhotoDB {
+        return DownloadPhotoDB(context)
     }
 
     @Singleton

@@ -78,6 +78,11 @@ dependencies {
     // paging
     implementation "androidx.paging:paging-runtime-ktx:3.0.1"
 
+    //work manager
+    implementation "androidx.work:work-runtime-ktx:$work_version"
+    implementation "androidx.hilt:hilt-work:1.0.0-beta01"
+    kapt 'androidx.hilt:hilt-compiler:1.0.0'
+
     // Testing
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.1'
