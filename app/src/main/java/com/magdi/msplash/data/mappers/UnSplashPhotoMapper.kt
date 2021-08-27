@@ -1,9 +1,13 @@
-package com.magdi.msplash.data
+package com.magdi.msplash.data.mappers
 
+import com.magdi.msplash.data.Photo
 import com.magdi.msplash.network.response.PhotosResponse
 import com.magdi.msplash.utils.Mapper
 
-class PhotoMapper : Mapper<PhotosResponse, Photo> {
+
+object UnSplashPhotoMapper : Mapper<PhotosResponse, Photo> {
+    private const val REGULAR_WIDTH = 1080
+
     override fun map(response: PhotosResponse): Photo {
         return Photo(
             id = response.id!!,
@@ -11,16 +15,13 @@ class PhotoMapper : Mapper<PhotosResponse, Photo> {
             color = response.color.orEmpty(),
             description = response.description.orEmpty(),
             height = calcNewHeight(response.width, response.height),
-            width = REGULAR_WIDTH
+            width = REGULAR_WIDTH,
+            createdAt = LocaleDateTimeMapper.map(response.created_at)
         )
     }
 
-    private fun calcNewHeight(width: Int, height: Int) : Int {
-        val scale : Double = height.toDouble() / width.toDouble()
+    private fun calcNewHeight(width: Int, height: Int): Int {
+        val scale: Double = height.toDouble() / width.toDouble()
         return (REGULAR_WIDTH.toDouble() * scale).toInt()
-    }
-
-    companion object {
-        private const val REGULAR_WIDTH = 1080
     }
 }

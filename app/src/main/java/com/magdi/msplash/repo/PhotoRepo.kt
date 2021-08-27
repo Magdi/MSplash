@@ -3,8 +3,7 @@ package com.magdi.msplash.repo
 import android.util.Log
 import androidx.annotation.WorkerThread
 import com.magdi.msplash.data.Photo
-import com.magdi.msplash.data.PhotoMapper
-import com.magdi.msplash.db.AppDatabase
+import com.magdi.msplash.data.mappers.UnSplashPhotoMapper
 import com.magdi.msplash.db.PhotoDao
 import com.magdi.msplash.network.SplashAPI
 import com.magdi.msplash.usecase.LoadPhotoParams
@@ -17,8 +16,7 @@ import javax.inject.Inject
 
 class PhotoRepo @Inject constructor(
     private val dao: PhotoDao,
-    private val api: SplashAPI,
-    private val mapper: PhotoMapper
+    private val api: SplashAPI
 ) {
     @WorkerThread
     fun getPhotos(): Flow<Results<List<Photo>>> {
@@ -30,17 +28,18 @@ class PhotoRepo @Inject constructor(
 
     @WorkerThread
     fun requestPhotos(params: LoadPhotoParams) = flow {
-        Log.e("Repo", "loading  $params")
+        Log.e(TAG, "loading  $params")
         emit(Results.Loading())
         try {
             val response = api.loadPhotos(
                 perPage = params.perPage,
                 page = params.page
             )
-            dao.insertAll(mapper.mapList(response))
+            dao.insertAll(UnSplashPhotoMapper.mapList(response))
             emit(Results.Success(true))
         } catch (e: Exception) {
             emit(Results.Error(e.message))
+            Log.e(TAG, e.message.toString())
             return@flow
         }
 
